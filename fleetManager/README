@@ -1,3 +1,29 @@
 Use python > 3.10
 
 Used to list, decrypt and delete locker passwords in VCF fleet manager (the UI to do this is not available anymore)
+
+Specify fleet manager (LCM) admin username and password, lcm fqdn and command to execute
+
+To decrypt passwords, you need to provide the root password of the fleet manager(lcm) appliance
+
+usage: lockerPasswords.py [-h] [-u USERNAME] [-p PASSWORD] [-r ROOTPASSWORD] [-l] [-a ALIAS] [-s SERVER] [-d ALIAS]
+
+Fleet Manager password locker management
+
+options:
+  -h, --help            show this help message and exit
+  -u USERNAME, --username USERNAME
+                        fleet manager admin username
+  -p PASSWORD, --password PASSWORD
+                        fleet manager admin password
+  -r ROOTPASSWORD, --rootpassword ROOTPASSWORD
+                        fleet manager root password, required to decrypt passwords
+  -l, --listpasswords   list password aliases
+  -a ALIAS, --alias ALIAS
+                        decrypt provided password alias
+  -s SERVER, --server SERVER
+                        FQDN of fleet manager
+  -d ALIAS, --delete ALIAS
+                        Delete provided password alias
+
+Used to list password aliases and delete password aliases from fleet manager password locker
