@@ -7,6 +7,9 @@ import getpass
 # Disable SSL warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+__author__ = "Marc De Grasse"
+__version__ = "0.1.0"
+
 ######## Functions #########
 
 def getPassword(alias):
@@ -14,28 +17,27 @@ def getPassword(alias):
         #print ("Password Alias: [" + entry["alias"] + "]")
         if (entry["alias"] == alias):
             print ("Password Alias: [" + entry["alias"] + "] *** Referenced: " + str(entry["referenced"]) + " ***")
-            vmid = entry["vmid"]
-            return vmid
-    print("VMID does not exist for alias " + alias +"! exiting")
+            return entry
+    print("Password entry does not exist for alias " + alias +"! exiting")
     exit(1)
-    return 0
 
 def getPasswords():
     # --- Make the GET request ---
     try:
-        response = requests.get(getPasswordsURL, headers=headers, verify=False)
+        response = requests.get(getPasswordsURL, headers=headers, verify=False, params='size=100')
         response.raise_for_status()  # Raise error for bad status codes
     except requests.exceptions.RequestException as e:
         print(f"Authentication failed: {e}")
         exit(1)
-    passwords = response.json()
+    passwords = response.json()["passwords"]
     return passwords
 
 def getDecryptedPassword(alias):
     # --- Get VMID ---
-    vmid = getPassword(alias)
-    getDecryptedPasswordURL = baseUrl + "/lcm/locker/api/v2/passwords/" + vmid + "/decrypted" 
+    vmid = getPassword(alias)["vmid"]
+    getDecryptedPasswordURL = getPasswordsURL + "/" + vmid + "/decrypted" 
     payload = { "rootPassword": fleetManagerRootPassword }
+    print(getDecryptedPasswordURL)
     # --- Make the POST request ---
     try:
         response = requests.post(getDecryptedPasswordURL, json=payload, headers=headers, verify=False)
@@ -51,7 +53,11 @@ def listPasswords():
         print ("Password Alias: [" + entry["alias"] + "] *** Referenced: " + str(entry["referenced"]) + " ***")
 
 def deletePassword(alias):
-    vmid = getPassword(alias)
+    vmid = getPassword(alias)["vmid"]
+    referenced = getPassword(alias)["referenced"]
+    if (referenced):
+        print('Password alias ' + alias + ' is currenty in use, cannot delete.')
+        exit(1)
     # --- Make the DELETE request ---
     try:
         response = requests.delete(getPasswordsURL+"/"+vmid, headers=headers, verify=False)
@@ -59,8 +65,10 @@ def deletePassword(alias):
     except requests.exceptions.RequestException as e:
         print(f"Delete failed for vmid {vmid}: {e}")
         print(response.json())
-        exit(1) 
+        exit(1)
     print(str(response))
+    if (response.status_code == 200):
+        print("Password alias " + alias + " was deleted successfuly.")
 
 def getBasicAuth(username, password):
     credentials = f"{username}:{password}"
@@ -70,14 +78,14 @@ def getBasicAuth(username, password):
 
 ########  Main #########
 
-parser = argparse.ArgumentParser(description="Fleet Manager locker management")
-parser.add_argument('--username', type=str, help='fleet manager username')
-parser.add_argument('--password', type=str, help='fleet manager password')
-parser.add_argument('--rootpassword', type=str, required=False, help='fleet manager root password, required to decrypt passwords')
+parser = argparse.ArgumentParser(description="Fleet Manager password locker management", epilog='Used to list password aliases and delete password aliases from fleet manager password locker')
+parser.add_argument('-u', '--username', type=str, help='fleet manager admin username')
+parser.add_argument('-p', '--password', type=str, help='fleet manager admin password')
+parser.add_argument('-r', '--rootpassword', type=str, required=False, help='fleet manager root password, required to decrypt passwords')
 parser.add_argument('-l', '--listpasswords', help='list password aliases', action='store_true')
 parser.add_argument('-a', '--alias', type=str, help='decrypt provided password alias')
 parser.add_argument('-s', '--server', type=str, help='FQDN of fleet manager')
-parser.add_argument('-d', '--delete', type=str, help='Delete provided password alias')
+parser.add_argument('-d', '--delete', type=str, help='Delete provided password alias', metavar='ALIAS')
 
 args = parser.parse_args()
 
@@ -107,7 +115,7 @@ headers = {
 }
 
 baseUrl = 'https://' + server
-getPasswordsURL = baseUrl + '/lcm/locker/api/passwords'
+getPasswordsURL = baseUrl + '/lcm/locker/api/v2/passwords'
 
 # Connect to fleet manager and collect password inventory
 passwords = getPasswords()
