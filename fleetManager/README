@@ -1,0 +1,3 @@
+Use python > 3.10
+
+Used to list, decrypt and delete locker passwords in VCF fleet manager (the UI to do this is not available anymore)
