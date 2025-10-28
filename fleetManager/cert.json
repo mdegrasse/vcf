@@ -1,0 +1,20 @@
+{
+ "alias": "VCF Operations",
+  "c": "US",
+  "cN": "ops01.mdgvlabs.com",
+  "host": [
+    "opsmgr.mdgvlabs.com",
+    "opsdata.mdgvlabs.com"
+  ],
+  "ip": [
+    "10.100.10.140",
+    "10.100.10.142"
+  ],
+  "l": "MTL",
+  "o": "vmware",
+  "oU": "vmware",
+  "sT": "QC",
+  "size": 2048,
+  "tenant": "default",
+  "validity": 999
+}
