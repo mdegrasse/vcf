@@ -1,0 +1,50 @@
+{
+    "certificateId":"3822cdf4-a9d9-4036-b4c5-1648f0969431",
+    "refRequestDTOList":
+        [{"vmid":"ded12902-34f0-4ec4-8c8a-8673bd4d1b77",
+          "tenant":"default",
+          "lockerId":"3226444a-b732-4653-9866-dc36bb2373ef",
+          "envId":"5522539e-f11a-4f82-8565-6999fd7187fc",
+          "destinationName":"vrops",
+          "referenceType":"certificate",
+          "type":"product",
+          "envName":"5522539e-f11a-4f82-8565-6999fd7187fc"}],
+    "vmid":"3226444a-b732-4653-9866-dc36bb2373ef",
+    "snapshotEnabled":false,
+    "retrustProdMeta":{"retrustVidmCertProdList":[]}
+}
+
+
+{
+    "certificateId":"3226444a-b732-4653-9866-dc36bb2373ef",
+    "refRequestDTOList":
+        [{"vmid":"ded12902-34f0-4ec4-8c8a-8673bd4d1b77",
+          "tenant":"default",
+          "lockerId":"3822cdf4-a9d9-4036-b4c5-1648f0969431",
+          "envId":"5522539e-f11a-4f82-8565-6999fd7187fc",
+          "destinationName":"vrops",
+          "referenceType":"certificate",
+          "type":"product",
+          "envName":"5522539e-f11a-4f82-8565-6999fd7187fc"}],
+    "vmid":"3822cdf4-a9d9-4036-b4c5-1648f0969431",
+    "snapshotEnabled":false,
+    "retrustProdMeta":{"retrustVidmCertProdList":[]}
+}
+
+{
+    "certificateId": "3226444a-b732-4653-9866-dc36bb2373ef", 
+    "refRequestDTOList": 
+    [
+        {"vmid": "c6d8d6b8-0876-4fdf-aae1-0ca9ed4f2cba", 
+        "tenant": "default", 
+        "lockerId": "3822cdf4-a9d9-4036-b4c5-1648f0969431", 
+        "envId": "5522539e-f11a-4f82-8565-6999fd7187fc", 
+        "destinationName": "vrops", 
+        "referenceType": "certificate", 
+        "type": "product", 
+        "envName": "5522539e-f11a-4f82-8565-6999fd7187fc"
+        }
+    ], 
+        "vmid": "3822cdf4-a9d9-4036-b4c5-1648f0969431", 
+        "snapshotEnabled": "false", 
+        "retrustProdMeta": {"retrustVidmCertProdList": []}}
