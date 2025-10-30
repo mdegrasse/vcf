@@ -68,7 +68,7 @@ def findCertificateAssignedToOps():
         destinationNames = getCertificateReferences(entry["vmid"]) #might have multiple destinations/assignments
         for destination in destinationNames: #loop to find the vrops one
             if (destination["destinationName"] == "vrops"):
-                print("Found VROPS reference: assigned to cert alias:[" + entry["alias"] + "] and vmid:[" + entry["vmid"]+"]")
+                print("\nFound VROPS reference: assigned to cert alias:[" + entry["alias"] + "] and vmid:[" + entry["vmid"]+"]\n")
                 return entry["vmid"]
     return "NOTFOUND"
 
@@ -90,7 +90,7 @@ def createPrevalidateCertificateReplacementTask(newVmid, oldVmid, references):
         print(f"Prevalidation task creation failed: {e}")
         print(f"Are you sure you provided the correct certificate VMID to use as a replacement?")
         exit(1)
-    print("Request ID is " + data["requestId"])
+    print("Task created, request ID is " + data["requestId"])
     return data["requestId"]
 
 def getPreValidationReport(taskId):
@@ -147,7 +147,7 @@ def replaceOpsCertificate(newVmid, oldVmid, references):
     except requests.exceptions.RequestException as e:
         print(f"Replace certificate task creation failed: {e}")
         exit(1)
-    print("Certificate [" + getCertificate(oldVmid)["alias"] + "] has successfully been replaced with certificate [" + getCertificate(newVmid)["alias"]+"]")
+    print("VCF Operations Certificate [" + getCertificate(oldVmid)["alias"] + "] has successfully been replaced with certificate [" + getCertificate(newVmid)["alias"]+"]")
 
 def isCertificateReferenced(vmid):
     cert = getCertificate(vmid)
