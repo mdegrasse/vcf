@@ -10,7 +10,7 @@ import time
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 __author__ = "Marc De Grasse"
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 ######## Functions #########
 
